@@ -1,2 +1,6 @@
-# CS321-B-Tree
-Final project for CS321
+#CS321-B-Tree
+#Team Members:
+- Juan Becerra
+- Benjamin Clark
+- Kass Adams
+
