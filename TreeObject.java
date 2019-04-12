@@ -3,7 +3,7 @@
  * 
  * Consists of a long value (represents a substring) and
  * an integer value (represents the frequency)
- *
+ * 
  * @author Juan Becerra, Kass Adams, Benjamin Clark
  */
 public class TreeObject {
