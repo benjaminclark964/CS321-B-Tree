@@ -16,7 +16,7 @@ public class TreeObject {
 	 * Constructor for TreeObject
 	 */
 	public TreeObject (long dnaInput) {
-		setDna(dnaInput);
+		dna = dnaInput;
 		frequency = 1;
 	}
 
@@ -26,14 +26,6 @@ public class TreeObject {
 	 */
 	public long getDna() {
 		return dna;
-	}
-
-	/**
-	 * Setter for dnaInput
-	 * @param dnaInput
-	 */
-	public void setDna(long dnaInput) {
-		this.dna = dnaInput;
 	}
 
 	/**
