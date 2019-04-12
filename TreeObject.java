@@ -8,31 +8,31 @@
 public class TreeObject {
 
 	//	Variables
-	private long dnaInput;
+	private long dna;
 	private int frequency;
 	
 	/**
 	 * Constructor for TreeObject
 	 */
 	public TreeObject (long dnaInput) {
-		this.setDnaInput(dnaInput);
-		this.setFrequency(1);
+		setDna(dnaInput);
+		frequency = 1;
 	}
 
 	/**
 	 * Getter for DnaInput
 	 * @return
 	 */
-	public long getDnaInput() {
-		return dnaInput;
+	public long getDna() {
+		return dna;
 	}
 
 	/**
 	 * Setter for dnaInput
 	 * @param dnaInput
 	 */
-	public void setDnaInput(long dnaInput) {
-		this.dnaInput = dnaInput;
+	public void setDna(long dnaInput) {
+		this.dna = dnaInput;
 	}
 
 	/**
@@ -44,12 +44,10 @@ public class TreeObject {
 	}
 
 	/**
-	 * Setter for frequency
+	 * Increments frequency by 1
 	 * @param frequency
 	 */
-	public void setFrequency(int frequency) {
-		this.frequency = frequency;
+	public void incrementFrequency() {
+		frequency++;
 	}
-	
-	
 }
