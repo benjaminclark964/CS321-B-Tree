@@ -28,14 +28,14 @@ public class BTree {
 	}
 	
 	/**
-	 * Split child when degree is reached
+	 * Split child when degree is passed
 	 */
 	public void splitChild() {
 		
 	}
 	
 	/**
-	 * Split the root when degree is reached
+	 * Split the root when degree is passed
 	 */
 	public void splitRoot() {
 		
