@@ -1,5 +1,5 @@
 /**
- * Creates data within each node in on the BTree
+ * Creates data within each node on the BTree
  * 
  * @author Kass Adams, Juan Becerra, and Benjamin Clark
  *
