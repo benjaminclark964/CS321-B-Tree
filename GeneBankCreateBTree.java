@@ -47,7 +47,7 @@ public class GeneBankCreateBTree {
 				//	Ensure that arguments are valid
 				
 				//	usingCache must be 0 or 1
-				if(!(usingCache == 0) || !(usingCache == 1)) {
+				if(!(usingCache == 0 || usingCache == 1)) {
 					System.err.println("You must specify whether or not you are using a cache (0 or 1). You entered " + usingCache + ".\n");
 					printUsageAndExit();
 				}
