@@ -63,7 +63,7 @@ public class GeneBankCreateBTree {
 				
 				//	gbkFile must exist and must be a file
 				if(!(gbkFile.exists()) || !(gbkFile.isFile())) {
-					System.err.println("The file file (" + gbkFile.toString() + ") does not exist or could not be found.\n");
+					System.err.println("The file (" + gbkFile.toString() + ") does not exist or could not be found.\n");
 					printUsageAndExit();
 				}
 				

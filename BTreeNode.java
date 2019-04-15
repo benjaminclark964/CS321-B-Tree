@@ -9,7 +9,7 @@ public class BTreeNode {
 	public TreeObject[] keys;
 	public long children[];
 	public int numKeys = 0;
-	public boolen isLeaf;
+	public boolean isLeaf;
 	public long filePosition; //Postion of node in file, may change later
 	
 	/**

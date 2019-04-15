@@ -30,7 +30,7 @@ public class GeneBankSearch {
 			debugLevel = Integer.parseInt(args[4]);
 		}	
 			
-		if (args[0] == 1) {
+		if (Integer.valueOf(args[0]) == 1) {
 			// implement cache
 		}
 		
