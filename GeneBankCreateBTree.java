@@ -1,4 +1,5 @@
 import java.io.File;
+import java.util.Scanner;
 
 /**
  * Driver Class
@@ -79,8 +80,8 @@ public class GeneBankCreateBTree {
 					printUsageAndExit();
 				}
 				
-				//	Pass variables to the BTree constructor
-				//	TODO
+				//	Scan through the file, look for Origin
+				scanFile(new Scanner(gbkFile));
 				
 			} else {
 				//	Handle invalid number of arguments
@@ -108,5 +109,38 @@ public class GeneBankCreateBTree {
 				"java GeneBankCreateBTree <0/1(no/with Cache)> <degree> <gbk file> <sequence length> " + 
 				"[<cache size>] [<debug level>]\n");
 		System.exit(1);
+	}
+	
+	/**
+	 * Scans through an entire file, creating blocks of "non-garbage"
+	 * DNA sequences that are then encoded into a binary long.
+	 *  
+	 * @param Scanner s
+	 */
+	private static void scanFile(Scanner s) {
+		//	Scans through entire file
+		while(s.hasNextLine()) {
+			//	Detect the start of a block
+			if(s.nextLine().equals("ORIGIN")) {
+				StringBuilder sequenceBlock = new StringBuilder();
+				//	Iterate through the block
+				while(s.hasNextLine()) {
+					String temp = s.nextLine();	//	Line to be parsed
+					if(!temp.equals("\\")) {
+						Scanner parser = new Scanner(temp); // TODO USE DELIMITER .useDelimiter("")
+						while(parser.hasNext()) {
+							//	Append the "good" string to our working "good" block
+							sequenceBlock.append(parser.next());
+						}
+						parser.close();
+					} else {
+						//	TODO Call parseSequence()
+						break;
+					}
+				}
+			}
+		}
+		
+		s.close();
 	}
 }
