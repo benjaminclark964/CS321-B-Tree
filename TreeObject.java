@@ -19,6 +19,11 @@ public class TreeObject {
 		dna = dnaInput;
 		frequency = 1;
 	}
+	
+	public TreeObject() {
+		this.dna = -1L;
+		frequency = 0;
+	}
 
 	/**
 	 * Getter for DnaInput
