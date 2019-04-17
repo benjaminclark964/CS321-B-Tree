@@ -5,8 +5,8 @@
  */
 public class BTree {
 	
-	private int t;
-	private int sequenceLength;
+	private int t;//degree of tree, so every BTreeNode has N number of TreeObjects such that: (t-1)<= N <=(2t-1)
+	private int sequenceLength;//this is the k parameter of Project Spec.
 	
 	public void BTree(int degree, int k) {
 		this.t = degree;
