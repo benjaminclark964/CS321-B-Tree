@@ -9,14 +9,6 @@ import java.io.File;
  *
  */
 public class GeneBankCreateBTree {
-	//	Variables
-	private static int usingCache;
-	private static int degree;
-	private static File gbkFile;
-	private static int sequenceLength;
-	private static int cacheSize;
-	private static int debugLevel;
-	
 	/**
 	 * Main Method
 	 * 
@@ -30,10 +22,12 @@ public class GeneBankCreateBTree {
 			//	Parse argument 
 			if(args.length == 4 || args.length == 6) {
 				//	Assign values to variables
-				usingCache = Integer.valueOf(args[0]);
-				degree = Integer.valueOf(args[1]);
-				gbkFile = new File(args[2]);
-				sequenceLength = Integer.valueOf(args[3]);
+				int usingCache = Integer.valueOf(args[0]);
+				int degree = Integer.valueOf(args[1]);
+				File gbkFile = new File(args[2]);
+				int sequenceLength = Integer.valueOf(args[3]);
+				int cacheSize;
+				int debugLevel;
 				
 				//	Determine if cacheSize and debugLevel will be used
 				if(args.length == 6) {
@@ -44,7 +38,7 @@ public class GeneBankCreateBTree {
 					debugLevel = 0;
 				}
 				
-				//	Ensure that arguments are valid
+				/* Ensure that arguments are valid */
 				
 				//	usingCache must be 0 or 1
 				if(!(usingCache == 0 || usingCache == 1)) {
