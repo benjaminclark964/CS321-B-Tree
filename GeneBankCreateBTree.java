@@ -6,7 +6,7 @@ import java.io.File;
  * Accepts arguments to construct a BTree
  * 
  * @author Juan Becerra, Kass Adams, and Benjamin Clark
- *
+ * 
  */
 public class GeneBankCreateBTree {
 	/**
