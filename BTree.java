@@ -48,30 +48,21 @@ public class BTree {
 		int i = 0;
 		BTreeNode returnNode = null;
 		
-		while (i < node.numKeys && key > node.keys[i].getDna()) {
-			
-			i++;
-			
+		while (i < node.numKeys && key > node.keys[i].getDna()) {	
+			i++;	
 		}
 		
-		if (i < node.numKeys && key == node.keys[i].getDna()) {
-			
-			return node;
-			
+		if (i < node.numKeys && key == node.keys[i].getDna()) {	
+			return node;	
 		}
 		
-		if (node.isLeaf) {
-			
-			return null;
-			
+		if (node.isLeaf) {	
+			return null;	
 		}
 		
-		if (node.children[i] != -1) {
-			
-			return diskRead(node.children[i]);
-			
+		if (node.children[i] != -1) {	
+			return diskRead(node.children[i]);	
 		}
-		
 		return search (returnNode, key);
 	}
 	
