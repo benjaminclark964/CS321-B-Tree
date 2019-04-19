@@ -116,31 +116,61 @@ public class GeneBankCreateBTree {
 	 * DNA sequences that are then encoded into a binary long.
 	 *  
 	 * @param Scanner s
+	 * @returns string of valid characters
 	 */
 	private static void scanFile(Scanner s) {
 		//	Scans through entire file
 		while(s.hasNextLine()) {
 			//	Detect the start of a block
-			if(s.nextLine().equals("ORIGIN")) {
+			if(s.nextLine().startsWith("ORIGIN")) {
 				StringBuilder sequenceBlock = new StringBuilder();
 				//	Iterate through the block
 				while(s.hasNextLine()) {
 					String temp = s.nextLine();	//	Line to be parsed
-					if(!temp.equals("\\")) {
+					if(!temp.startsWith("//")) {
 						Scanner parser = new Scanner(temp); // TODO USE DELIMITER .useDelimiter("")
 						while(parser.hasNext()) {
 							//	Append the "good" string to our working "good" block
-							sequenceBlock.append(parser.next());
+							sequenceBlock.append(parser.next()
+									.replace("\\s", "")	//	Removes whitespace
+									.replaceAll("[0-9]", ""));	//	Removes all integers (regex)
 						}
 						parser.close();
 					} else {
-						//	TODO Call parseSequence()
+						//	TODO Testing for valid sequence - delete when done
+						System.out.println(sequenceBlock.toString());
+						
+						long encodedSequence = encodeSequence(sequenceBlock.toString());
 						break;
 					}
 				}
 			}
 		}
-		
 		s.close();
+	}
+	
+	/**
+	 * Takes a string and encodes it into a 32 bit long sequence
+	 * 
+	 * The key is as follows:
+	 * 
+	 * A = 00
+	 * T = 11
+	 * C = 01
+	 * G = 10
+	 * 
+	 * Unused beats will be leading 0's
+	 * 
+	 * @param sequence
+	 * @return
+	 */
+	private static long encodeSequence(String sequence) {
+		//	Sequence to return
+		long encodedSequence = 0;
+		
+		//	TODO create algorithm to encode string sequence
+		
+		
+		return encodedSequence;
 	}
 }
