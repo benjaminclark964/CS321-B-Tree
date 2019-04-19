@@ -19,7 +19,7 @@ public class GeneBankSearch {
 	 */
 	public static void parseArgs(String args[]) {
 		
-		if (args.length > 5 || args.length < 3) {
+		if (args.length > 5 || args.length < 3 || args[4] != 0) {
 			
 			printUsage();
 			
