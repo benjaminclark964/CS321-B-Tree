@@ -165,12 +165,29 @@ public class GeneBankCreateBTree {
 	 * @return
 	 */
 	private static long encodeSequence(String sequence) {
-		//	Sequence to return
-		long encodedSequence = 0;
-		
-		//	TODO create algorithm to encode string sequence
-		
-		
-		return encodedSequence;
+		char[] array = sequence.toCharArray();
+		StringBuilder str = new StringBuilder();
+		for(int i=0; i<array.length; i++) {
+			char atcg = Character.toUpperCase(array[i]);
+			switch(atcg) {
+			case 'A':
+				str.append("00");
+				break;
+			case 'T':
+				str.append("11");
+				break;
+			case 'C':
+				str.append("01");
+				break;
+			case 'G':
+				str.append("10");
+				break;
+			}
+		}
+			
+		return Long.parseLong(str.toString(), 2);
 	}
+	
+	
+	
 }
