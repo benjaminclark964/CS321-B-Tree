@@ -1,4 +1,5 @@
 import java.io.File;
+import java.util.LinkedList;
 import java.util.Scanner;
 
 /**
@@ -10,6 +11,9 @@ import java.util.Scanner;
  * 
  */
 public class GeneBankCreateBTree {
+	
+	private static int sequenceLength;
+	
 	/**
 	 * Main Method
 	 * 
@@ -26,7 +30,7 @@ public class GeneBankCreateBTree {
 				int usingCache = Integer.valueOf(args[0]);
 				int degree = Integer.valueOf(args[1]);
 				File gbkFile = new File(args[2]);
-				int sequenceLength = Integer.valueOf(args[3]);
+				sequenceLength = Integer.valueOf(args[3]);
 				int cacheSize;
 				int debugLevel;
 				
@@ -128,7 +132,7 @@ public class GeneBankCreateBTree {
 				while(s.hasNextLine()) {
 					String temp = s.nextLine();	//	Line to be parsed
 					if(!temp.startsWith("//")) {
-						Scanner parser = new Scanner(temp); // TODO USE DELIMITER .useDelimiter("")
+						Scanner parser = new Scanner(temp);
 						while(parser.hasNext()) {
 							//	Append the "good" string to our working "good" block
 							sequenceBlock.append(parser.next()
@@ -137,16 +141,44 @@ public class GeneBankCreateBTree {
 						}
 						parser.close();
 					} else {
-						//	TODO Testing for valid sequence - delete when done
-						System.out.println(sequenceBlock.toString());
 						
-						long encodedSequence = encodeSequence(sequenceBlock.toString());
+						slidyBoi(sequenceBlock.toString());
+						
 						break;
 					}
 				}
 			}
 		}
 		s.close();
+	}
+	
+	/**
+	 * Takes a parsed String "block", creates Strings of size 'k',
+	 * and passes those Strings into encode sequence
+	 * 
+	 * @param sequence
+	 * @return
+	 */
+	private static void slidyBoi(String sequence) {
+		int blockLength = sequence.length();
+		LinkedList<Character> window = new LinkedList<Character>();
+		Character n = 'n';
+		
+		for(int i = 0; i < blockLength; i++) {
+			//	Create our initial working sequence
+			if(i < sequenceLength) {
+				window.add(sequence.charAt(i));
+			} else {
+				if(!window.contains(n)) {
+					//	TODO: Will uncomment once implemented
+					//BTree.insert(encodeSequence(window));
+				}
+				
+				//	Slide the window
+				window.removeFirst();
+				window.addLast(sequence.charAt(i));
+			}
+		}
 	}
 	
 	/**
@@ -164,7 +196,8 @@ public class GeneBankCreateBTree {
 	 * @param sequence
 	 * @return
 	 */
-	private static long encodeSequence(String sequence) {
+	private static long encodeSequence(LinkedList<Character> sequence) {
+		//	TODO KAAAASSS
 		char[] array = sequence.toCharArray();
 		StringBuilder str = new StringBuilder();
 		for(int i=0; i<array.length; i++) {
