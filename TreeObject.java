@@ -20,6 +20,16 @@ public class TreeObject {
 		frequency = 1;
 	}
 	
+	/**
+	 * Used to construct a tree object
+	 * @param dnaInput the key
+	 * @param Frequency of the key
+	 */
+	public TreeObject(long dnaInput, int Freq) {
+		this.dna = dnaInput;
+		this.frequency = Freq;
+	}
+	
 	public TreeObject() {
 		this.dna = -1L;
 		frequency = 0;
