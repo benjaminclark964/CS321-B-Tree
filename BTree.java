@@ -50,11 +50,17 @@ public class BTree {
 	 */
 	public void insert(int degree, long key) {
 		
-//		BTreeNode duplicate = search(root, key); //check if the node is already inserted
-//		
-//		if (duplicate != null) { //duplicate method here?
-//			
-//		}
+		BTreeNode duplicate = search(root, key); //check if the node is already inserted
+		
+		if (duplicate != null) { 
+			for(int i = 0; i < duplicate.keys.length; i++) {
+				if(duplicate.keys[i].getDna() == key) {
+					duplicate.keys[i].incrementFrequency();
+					diskWrite(duplicate);
+					return;
+				}
+			}
+		}
 		
 		BTreeNode r = root;
 		
