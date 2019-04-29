@@ -33,16 +33,28 @@ public class BTree {
 		diskWrite(root);
 	}
 	
+	public BTree(File BtreeFile, File metadata) throws IOException {	
+		bTreeRAF = new RandomAccessFile(metadata, "r");
+		this.t = bTreeRAF.readInt(); //read in degree in terms of t
+		this.sequenceLength = bTreeRAF.readInt(); //sequence length (k) 
+		bTreeRAF.close();
+		
+		this.BTreeFile = BtreeFile;
+		bTreeRAF = new RandomAccessFile(BtreeFile, "r");
+		root = diskRead(0);		
+		bTreeRAF.close();
+	}
+	
 	/**
 	 * Inserts into the BTree
 	 */
 	public void insert(int degree, long key) {
 		
-		BTreeNode duplicate = search(root, key); //check if the node is already inserted
-		
-		if (duplicate != null) { //duplicate method here?
-			
-		}
+//		BTreeNode duplicate = search(root, key); //check if the node is already inserted
+//		
+//		if (duplicate != null) { //duplicate method here?
+//			
+//		}
 		
 		BTreeNode r = root;
 		
@@ -171,13 +183,6 @@ public class BTree {
 		diskWrite(x);
 		diskWrite(y);
 		diskWrite(z);
-	}
-	
-	/**
-	 * Split the root when node is full
-	 */
-	public void splitRoot() {
-		
 	}
 	
 	/**
