@@ -48,7 +48,7 @@ public class BTree {
 	/**
 	 * Inserts into the BTree
 	 */
-	public void insert(int degree, long key) {
+	public void insert(long key) {
 		
 		BTreeNode duplicate = search(root, key); //check if the node is already inserted
 		

@@ -14,6 +14,7 @@ import java.util.Scanner;
 public class GeneBankCreateBTree {
 	
 	private static int sequenceLength;
+	private static BTree bTree;
 	
 	/**
 	 * Main Method
@@ -84,6 +85,9 @@ public class GeneBankCreateBTree {
 					System.err.println("Your debug level must either be 0 or 1. You entered " + debugLevel + ".\n");
 					printUsageAndExit();
 				}
+				
+				//	Create a BTree
+				bTree = new BTree(degree, sequenceLength, gbkFile.getName());
 				
 				//	Scan through the file, look for Origin
 				scanFile(new Scanner(gbkFile));
@@ -171,8 +175,8 @@ public class GeneBankCreateBTree {
 				window.add(sequence.charAt(i));
 			} else {
 				if(!window.contains(n)) {
-					//	TODO: Will uncomment once implemented
-					//BTree.insert(encodeSequence(window));
+					//TODO: Will uncomment once implemented
+					bTree.insert(encodeSequence(window));
 				}
 				
 				//	Slide the window
