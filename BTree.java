@@ -1,3 +1,5 @@
+
+    
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -50,35 +52,35 @@ public class BTree {
 	 */
 	public void insert(long key) {
 		
-		BTreeNode duplicate = search(root, key); //check if the node is already inserted
-		
-		if (duplicate != null) { 
-			for(int i = 0; i < duplicate.keys.length; i++) {
-				if(duplicate.keys[i].getDna() == key) {
-					duplicate.keys[i].incrementFrequency();
-					diskWrite(duplicate);
-					return;
+		//check if key is already inserted
+				BTreeNode duplicate = search(root, key);
+				if(duplicate != null) {
+					for(int i=0; i<duplicate.keys.length; i++) {
+						if(duplicate.keys[i].getDna() == key) {
+							duplicate.keys[i].incrementFrequency();;
+							diskWrite(duplicate);
+							return;
+						}
+					}
 				}
-			}
-		}
-		
-		BTreeNode r = root;
-		
-		if (r.numKeys == (2*t-1)) {
-			BTreeNode s = new BTreeNode(t, getFileLength()); //newNode
-			diskWrite(s);
-			root.filePosition = getFileLength();
-			root = s;
-			s.isLeaf = false;
-			s.numKeys = 0;
-			s.children[0] = r.filePosition;
-			s.filePosition = 0;
-			splitChild(s, 0, r);
-			insertNonFull(s, key);
-		} else {
-			insertNonFull(r, key);
-		}	
-	}
+				
+				BTreeNode r = this.root;
+				if(r.numKeys == 2*t-1) {
+					BTreeNode newNode = new BTreeNode(t, getFileLength());	
+					diskWrite(newNode);	
+					this.root.filePosition = getFileLength();
+					diskWrite(root);
+					this.root = newNode;
+					newNode.isLeaf = false;
+					newNode.numKeys = 0;
+					newNode.children[0] = r.filePosition;
+					newNode.filePosition = 0;
+					splitChild(newNode,0,r);
+					insertNonFull(newNode,key);
+				}else {
+					insertNonFull(root,key);
+				}
+			}	
 	
 	/**
 	 * Inserts a node into a non full node
@@ -86,36 +88,30 @@ public class BTree {
 	public void insertNonFull(BTreeNode x, long key) {
 		
 		int i = x.numKeys - 1;
-		
-		if (x.isLeaf == true) {
-			
-			while (i >= 1 && key < x.keys[i].getDna()) {
-				x.keys[i+1] = x.keys[i];
-				i--;
+		if(x.isLeaf) {
+			while( i >= 0 && key < x.keys[i].getDna() ) {
+				x.keys[i+1] = new TreeObject(x.keys[i].getDna(), x.keys[i].getFrequency());
+				i--;			
 			}
-			x.keys[i+1] = new TreeObject(key);
+			x.keys[i+1] = new TreeObject(key, 1);
 			x.numKeys++;
-			diskWrite(x);
-			
-		} else {
-			
-			while (i >= 1 && key < x.keys[i].getDna()) {
+			diskWrite(x);	
+		}else {
+			while( i >= 0 && key < x.keys[i].getDna()) {
 				i--;
 			}
-			
 			i++;
 			BTreeNode c;
-			if (x.children[i] != -1) {
+			if(x.children[i] != -1) {
 				c = diskRead(x.children[i]);
-				
-				if (c.numKeys == (2*t-1)) {
+				if( c.numKeys == 2*t-1 ) {
 					splitChild(x, i, c);
-					if(key > x.keys[i].getDna()) {
+					if( key > x.keys[i].getDna()){
 						i++;
 					}
 				}
 				insertNonFull(diskRead(x.children[i]), key);
-			} 
+			}			
 		}	
 	}
 	
@@ -149,47 +145,42 @@ public class BTree {
 	 * Split child when node is full
 	 */
 	public void splitChild(BTreeNode x, int i, BTreeNode y) {
-		// x is the parent to y
-		// y is the node being split
-		// z is the node where half of y goes to
-		BTreeNode z = new BTreeNode(t, getFileLength());
-		z.isLeaf = y.isLeaf;
-		z.numKeys = t-1;
-		diskWrite(z);
-		
-		for(int j = 1; j < t-1; j++) {
-			z.keys[j] = new TreeObject(y.keys[j+t].getDna(), y.keys[j+t].getFrequency());
-			y.keys[j+t] = new TreeObject();
-		}
-		
-		if(!y.isLeaf) {
-			for(int j = 1; j < t; j++) {
-				z.children[j] = y.children[j+t];
-				y.children[j+t] = -1L;
-			}
-		}
-		
-		y.numKeys = t-1;
-		
-		for(int j = x.numKeys; j > i+1; j--) {
-			x.children[j+1] = x.children[j];
-			x.children[j] = -1L;
-		}
-		
-		x.children[i+1] = z.filePosition;
-		
-		for(int j = x.numKeys; j > z.numKeys; j--) {
-			x.keys[j+1] = new TreeObject(x.keys[j].getDna(), x.keys[j].getFrequency());
-		}
-		
-		x.keys[i] = new TreeObject(y.keys[t-1].getDna(), y.keys[t-1].getFrequency());
-		y.keys[t-1] = new TreeObject();
-		x.numKeys = x.numKeys + 1;
-		
-		diskWrite(x);
-		diskWrite(y);
-		diskWrite(z);
-	}
+		//x is the parent to y
+				//y is the node being split 
+				//z is the new node which ~half of y's keys/children will go to
+				BTreeNode z = new BTreeNode(t, getFileLength());
+				z.isLeaf = y.isLeaf;
+				z.numKeys = t-1;
+				diskWrite(z);
+				
+				for(int j=0; j<t-1; j++) {
+					z.keys[j] = new TreeObject(y.keys[j+t].getDna(), y.keys[j+t].getFrequency());
+					y.keys[j+t] = new TreeObject();
+				}
+				if(!y.isLeaf) {
+					for(int j=0; j<t; j++) {
+						z.children[j] = y.children[j+t];
+						y.children[j+t] = -1L;
+					}
+				}
+				
+				y.numKeys = t-1;
+				for(int j=x.numKeys; j>i; j--) {
+					x.children[j+1] = x.children[j];
+					x.children[j] = -1L;
+				}
+				x.children[i+1] = z.filePosition;
+				for(int j=x.numKeys-1; j>i-1; j--) {
+					x.keys[j+1] = new TreeObject(x.keys[j].getDna(), x.keys[j].getFrequency());
+				}
+				x.keys[i] = new TreeObject(y.keys[t-1].getDna(), y.keys[t-1].getFrequency());
+				y.keys[t-1] = new TreeObject();
+				x.numKeys = x.numKeys + 1;
+				diskWrite(z);		
+				diskWrite(y);		
+				diskWrite(x);
+}
+	
 	
 	/**
 	 * write metadata into disk
@@ -280,7 +271,32 @@ public class BTree {
 	/**
 	 * print results for debugging
 	 */
-	public void print() {
+	public void print(BTreeNode root_node, int debug) {
+		//in-order traversal of the btree nodes
+		//print all keys of the node on each traverse step
 		
+				int i;
+				for(i=0; i < 2*t-1; i++) {
+					if (!root_node.isLeaf) {
+						if(root_node.children[i] != -1L) {
+							BTreeNode n = diskRead(root_node.children[i]);
+							print(n, debug);
+						}
+					}
+					TreeObject cur = root_node.keys[i];
+					if(cur.getDna() != -1) {
+						System.out.print(cur.getDna() + " ");
+						System.out.print(cur.getFrequency() + " ");
+						System.out.println();
+					}
+				}
+				
+				if (!root_node.isLeaf) {
+					if(root_node.children[i] != -1L) {
+						BTreeNode n = diskRead(root_node.children[i]);
+						print(n, debug);
+					}
+				}		
+			}
 	}
-}
+
