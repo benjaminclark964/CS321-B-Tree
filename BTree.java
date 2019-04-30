@@ -93,7 +93,7 @@ public class BTree {
 				x.keys[i+1] = new TreeObject(x.keys[i].getDna(), x.keys[i].getFrequency());
 				i--;			
 			}
-			x.keys[i+1] = new TreeObject(key, 1);
+			x.keys[i+1] = new TreeObject(key);
 			x.numKeys++;
 			diskWrite(x);	
 		}else {
