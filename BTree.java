@@ -2,6 +2,7 @@
     
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
@@ -136,7 +137,7 @@ public class BTree {
 		}
 		
 		if (node.children[i] != -1) {	
-			return diskRead(node.children[i]);	
+			returnNode = diskRead(node.children[i]);	
 		}
 		return search (returnNode, key);
 	}
@@ -270,11 +271,16 @@ public class BTree {
 	
 	/**
 	 * print results for debugging
+	 * @throws IOException 
 	 */
-	public void print(BTreeNode root_node, int debug) {
+	public void print(BTreeNode root_node, int debug) throws IOException {
 		//in-order traversal of the btree nodes
 		//print all keys of the node on each traverse step
 		
+		//System.out.println(GeneBankCreateBTree.decodeSequence(root_node.keys[0].getDna()));
+		
+				FileWriter writer = new FileWriter("dump");
+				
 				int i;
 				for(i=0; i < 2*t-1; i++) {
 					if (!root_node.isLeaf) {
@@ -285,6 +291,7 @@ public class BTree {
 					}
 					TreeObject cur = root_node.keys[i];
 					if(cur.getDna() != -1) {
+						writer.write(GeneBankCreateBTree.decodeSequence(root_node.keys[i].getDna()));
 						System.out.print(cur.getDna() + " ");
 						System.out.print(cur.getFrequency() + " ");
 						System.out.println();
@@ -296,7 +303,7 @@ public class BTree {
 						BTreeNode n = diskRead(root_node.children[i]);
 						print(n, debug);
 					}
-				}		
+				}
 			}
-	}
+		 }
 
