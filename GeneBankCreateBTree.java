@@ -239,7 +239,7 @@ public class GeneBankCreateBTree {
 	/**
 	 * 
 	 */
-	private static String decodeSequence(long dna) {
+	public static String decodeSequence(long dna) {
 		String temp = Long.toString(dna,2);// the long converted to string w/o leading 0's
 		StringBuilder dnaString = new StringBuilder();// will hold the long converted to a string w/ leading 0's
 		int k2 = sequenceLength*2;// number of total bits expected
