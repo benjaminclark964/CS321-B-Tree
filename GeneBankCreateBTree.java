@@ -13,8 +13,9 @@ import java.util.Scanner;
  */
 public class GeneBankCreateBTree {
 	
-	private static int sequenceLength;
+	private static int sequenceLength;//K
 	private static BTree bTree;
+	private static Cache<BTreeNode> cache;//TODO: Maybe should be Cache<TreeObject>?
 	
 	/**
 	 * Main Method
@@ -27,7 +28,7 @@ public class GeneBankCreateBTree {
 	public static void main(String[] args) {
 		try {
 			//	Parse argument 
-			if(args.length == 4 || args.length == 6) {
+			if(args.length >= 4 && args.length <= 6) {
 				//	Assign values to variables
 				int usingCache = Integer.valueOf(args[0]);
 				int degree = Integer.valueOf(args[1]);
@@ -37,10 +38,14 @@ public class GeneBankCreateBTree {
 				int debugLevel;
 				
 				//	Determine if cacheSize and debugLevel will be used
-				if(args.length == 6) {
+				if(args.length >= 5) {
 					cacheSize = Integer.valueOf(args[4]);
-					debugLevel = Integer.valueOf(args[5]);
-				} else {
+					if(args.length == 6) {
+						debugLevel = Integer.valueOf(args[5]);
+					}else {
+						debugLevel = 0;
+					}
+				} else { //if args.length was 4
 					cacheSize = 0;
 					debugLevel = 0;
 				}
@@ -55,15 +60,15 @@ public class GeneBankCreateBTree {
 				
 				//	degree must be either 0 (becomes 4096 bytes) or some positive integer
 				if(degree == 0) {
-					degree = 4096;
+					degree = 5;//TODO: need to make actual calculation for the best degree for our block size 4096
 				}
-				if(!(degree > 0)) {
-					System.err.println("Your degree must be greater or equal to 0. You entered " + degree + ".\n");
+				if(!(degree > 1)) {
+					System.err.println("Your degree must be greater or equal to 2. You entered " + degree + ".\n");
 					printUsageAndExit();
 				}
 				
 				//	gbkFile must exist and must be a file
-				if(!(gbkFile.exists()) || !(gbkFile.isFile())) {
+				if( !(gbkFile.exists()) || !(gbkFile.isFile()) ) {
 					System.err.println("The file (" + gbkFile.toString() + ") does not exist or could not be found.\n");
 					printUsageAndExit();
 				}
