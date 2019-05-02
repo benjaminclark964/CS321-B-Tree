@@ -94,7 +94,7 @@ public class GeneBankCreateBTree {
 				//	Create a BTree
 				bTree = new BTree(degree, sequenceLength, gbkFile.getName());
 				
-				//	Scan through the file, look for Origin
+				//	Scan through the file, finds sequences, and creates nodes from file
 				scanFile(new Scanner(gbkFile));
 				
 			} else {
@@ -151,9 +151,7 @@ public class GeneBankCreateBTree {
 						}
 						parser.close();
 					} else {
-						
 						slidyBoi(sequenceBlock.toString());
-						
 						break;
 					}
 				}
@@ -165,6 +163,9 @@ public class GeneBankCreateBTree {
 	/**
 	 * Takes a parsed String "block", creates Strings of size 'k',
 	 * and passes those Strings into encode sequence
+	 * 
+	 * Once encoded, longs are passed to BTree in order to be inserted
+	 * (May not insert if long is duplicate. In this case, frequency is incremented)
 	 * 
 	 * @param sequence
 	 * @return
@@ -180,6 +181,7 @@ public class GeneBankCreateBTree {
 				window.add(sequence.charAt(i));
 			} else {
 				if(!window.contains(n)) {
+					//	Encode and insert long into the BTree
 					bTree.insert(encodeSequence(window));
 				}
 				
