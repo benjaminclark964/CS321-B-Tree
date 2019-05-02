@@ -180,7 +180,6 @@ public class GeneBankCreateBTree {
 				window.add(sequence.charAt(i));
 			} else {
 				if(!window.contains(n)) {
-					//TODO: Will uncomment once implemented
 					bTree.insert(encodeSequence(window));
 				}
 				
