@@ -21,13 +21,13 @@ public class BTreeNode {
 		
 		this.keys = new TreeObject[(2*t-1)];
 		for (int i = 0; i < keys.length; i++) {
-			keys[i] = new TreeObject(-1L); //start at the root
+			keys[i] = new TreeObject(-1L); 
 			numKeys++;
 		}
 		
 		this.children = new long[(2*t)];
 		for (int i = 0; i < children.length; i++) {
-			children[i] = -1L; //not sure what to put here for what the child is equal to
+			children[i] = -1L; 
 		}
 		
 		this.isLeaf = true;
@@ -45,7 +45,14 @@ public class BTreeNode {
 		System.out.println("Number of Keys: " + numKeys);
 		System.out.println("Keys: ");
 		for (int i = 0; i < keys.length; ++i) {
-			System.out.print(i);
+			System.out.print(keys[i].getDna() + ", ");
 		}
+		System.out.println();
+		System.out.println("Children: ");
+		
+		for(int j = 0; j < children.length; j++) {
+			System.out.print(children[j] + ", ");
+		}
+		System.out.println();
 	}
 }
