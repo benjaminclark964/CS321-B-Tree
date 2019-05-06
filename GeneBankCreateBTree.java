@@ -79,7 +79,7 @@ public class GeneBankCreateBTree {
 					printUsageAndExit();
 				}
 				
-				//	Cache size must be greater than 0, but can be anything if usingCache is 0
+				//	Cache size must be greater than 0, but can be anything if usingCache is 0 
 				if(usingCache == 1 && cacheSize <= 0) {
 					System.err.println("Your cache size must be greater than 0. You entered " + cacheSize + ".\n");
 					printUsageAndExit();

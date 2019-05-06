@@ -227,7 +227,7 @@ public class BTree {
 		}
 	}
 	
-	/**
+	/** 
 	 * reads the contents of the disk
 	 * @param filePos position of node within the file
 	 * @return node
