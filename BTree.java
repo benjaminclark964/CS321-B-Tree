@@ -15,6 +15,8 @@ public class BTree {
 	BTreeNode root; //root of the BTree
 	RandomAccessFile bTreeRAF; //Reads the file
 	File BTreeFile;
+	StringBuilder outPut = new StringBuilder();
+	FileWriter writer;
 	//Cache cache; 
 	
 	public BTree(int t, int k, String gbk) throws IOException {
@@ -289,8 +291,6 @@ public class BTree {
 		//in-order traversal of the btree nodes
 		//print all keys of the node on each traverse step
 		
-		
-				FileWriter writer = new FileWriter("dump");
 				
 				int i;
 				for(i=0; i < 2*t-1; i++) {
@@ -302,10 +302,10 @@ public class BTree {
 					}
 					TreeObject cur = root_node.keys[i];
 					if(cur.getDna() != -1) {
-						writer.write(GeneBankCreateBTree.decodeSequence(root_node.keys[i].getDna()));
-						System.out.print(cur.getDna() + " ");
-						System.out.print(cur.getFrequency() + " ");
-						System.out.println();
+						System.out.print(GeneBankCreateBTree.decodeSequence(cur.getDna()) + ": " + cur.getFrequency() + "\n");
+						if(debug == 1) {
+							outPut.append(GeneBankCreateBTree.decodeSequence(cur.getDna()) + ": " + cur.getFrequency() + "\n");
+						}
 					}
 				}
 				
@@ -317,6 +317,8 @@ public class BTree {
 				}
 				
 				//	Close writer
+				writer = new FileWriter("dump");
+				writer.write(outPut.toString());
 				writer.close();
 			}
 		 }

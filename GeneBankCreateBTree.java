@@ -97,6 +97,9 @@ public class GeneBankCreateBTree {
 				//	Scan through the file, finds sequences, and creates nodes from file
 				scanFile(new Scanner(gbkFile));
 				
+				//	Print that boi
+				bTree.print(bTree.root, debugLevel);
+				
 			} else {
 				//	Handle invalid number of arguments
 				System.err.println("Invalid number of arguments (" + args.length + ")\n");
