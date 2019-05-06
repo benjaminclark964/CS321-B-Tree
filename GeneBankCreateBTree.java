@@ -193,6 +193,11 @@ public class GeneBankCreateBTree {
 				window.addLast(sequence.charAt(i));
 			}
 		}
+		
+		//	Google workaround
+		if(!window.contains(n)) {			
+			bTree.insert(encodeSequence(window));
+		}
 	}
 	
 	/**

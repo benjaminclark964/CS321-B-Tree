@@ -107,9 +107,6 @@ public class BTree {
 			x.keys[i+1] = new TreeObject(key);
 			x.numKeys++;
 			diskWrite(x);	
-			BTreeNode rootCopy = diskRead(x.filePosition);
-			rootCopy.printNode();
-			
 		}else {
 			while( i >= 0 && key < x.keys[i].getDna()) {
 				i--;
@@ -118,7 +115,6 @@ public class BTree {
 			BTreeNode c;
 			if(x.children[i] != -1) {
 				c = diskRead(x.children[i]);
-				c.printNode(); //XXX
 				if( c.numKeys == 2*t-1 ) {
 					splitChild(x, i, c);
 					if( key > x.keys[i].getDna()){
