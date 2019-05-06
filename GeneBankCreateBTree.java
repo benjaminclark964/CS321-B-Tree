@@ -246,6 +246,46 @@ public class GeneBankCreateBTree {
 	}
 	
 	/**
+	 * Takes a string and encodes it into a 32 bit long sequence
+	 * 
+	 * The key is as follows:
+	 * 
+	 * A = 00
+	 * T = 11
+	 * C = 01
+	 * G = 10
+	 * 
+	 * Unused beats will be leading 0's
+	 * 
+	 * @param sequence
+	 * @return
+	 */
+	public static long encodeSequence(String s) {
+		
+		char[] array = s.toCharArray();
+		StringBuilder str = new StringBuilder();
+		for(int i=0; i<array.length; i++) {
+			char atcg = Character.toUpperCase(array[i]);
+			switch(atcg) {
+			case 'A':
+				str.append("00");
+				break;
+			case 'T':
+				str.append("11");
+				break;
+			case 'C':
+				str.append("01");
+				break;
+			case 'G':
+				str.append("10");
+				break;
+			}
+		}
+			
+		return Long.parseLong(str.toString(), 2);
+	}
+	
+	/**
 	 * 
 	 */
 	public static String decodeSequence(long dna) {
