@@ -1,5 +1,3 @@
-
-    
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -35,6 +33,17 @@ public class BTree {
 		diskWrite(root);
 	}
 	
+	/**
+	 * test BTree Constructor
+	 * @param t degree
+	 * @param k sequence length
+	 */
+	public BTree(int t, int k) {
+		this.t = t;
+		this.sequenceLength = k;
+		root = new BTreeNode(t, 0);
+	}
+	
 	public BTree(File BtreeFile, File metadata) throws IOException {	
 		bTreeRAF = new RandomAccessFile(metadata, "r");
 		this.t = bTreeRAF.readInt(); //read in degree in terms of t
@@ -57,7 +66,7 @@ public class BTree {
 				if(duplicate != null) {
 					for(int i=0; i<duplicate.keys.length; i++) {
 						if(duplicate.keys[i].getDna() == key) {
-							duplicate.keys[i].incrementFrequency();;
+							duplicate.keys[i].frequency++;
 							diskWrite(duplicate);
 							return;
 						}
@@ -96,6 +105,9 @@ public class BTree {
 			x.keys[i+1] = new TreeObject(key);
 			x.numKeys++;
 			diskWrite(x);	
+			BTreeNode rootCopy = diskRead(x.filePosition);
+			rootCopy.printNode();
+			
 		}else {
 			while( i >= 0 && key < x.keys[i].getDna()) {
 				i--;
@@ -104,6 +116,7 @@ public class BTree {
 			BTreeNode c;
 			if(x.children[i] != -1) {
 				c = diskRead(x.children[i]);
+				c.printNode(); //XXX
 				if( c.numKeys == 2*t-1 ) {
 					splitChild(x, i, c);
 					if( key > x.keys[i].getDna()){
@@ -226,10 +239,10 @@ public class BTree {
 			bTreeRAF.seek(filePos);
 			
 			for (int i = 0; i < node.keys.length; i++) {
-				long g = node.keys[i].getDna(); 
-				int e = node.keys[i].getFrequency();
-				g = bTreeRAF.readLong();
-				e = bTreeRAF.readInt();
+				//long g = node.keys[i].getDna(); 
+				//int e = node.keys[i].getFrequency();
+				node.keys[i].dna = bTreeRAF.readLong();
+				node.keys[i].frequency = bTreeRAF.readInt();
 			}
 			
 			for (int i = 0; i < node.children.length; i++) {
@@ -276,7 +289,6 @@ public class BTree {
 		//in-order traversal of the btree nodes
 		//print all keys of the node on each traverse step
 		
-		//System.out.println(GeneBankCreateBTree.decodeSequence(root_node.keys[0].getDna()));
 		
 				FileWriter writer = new FileWriter("dump");
 				
@@ -308,4 +320,3 @@ public class BTree {
 				writer.close();
 			}
 		 }
-

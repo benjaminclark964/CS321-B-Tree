@@ -9,8 +9,8 @@
 public class TreeObject {
 
 	//	Variables
-	private long dna;
-	private int frequency;
+	public long dna;
+	public int frequency;
 	
 	/**
 	 * Constructor for TreeObject
