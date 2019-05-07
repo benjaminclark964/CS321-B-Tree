@@ -1,9 +1,8 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.Scanner;
-
-
 /** 
  * Searches the BTree and prints each sequence of DNA along with its corresponding
  * frequency.
@@ -14,8 +13,9 @@ import java.util.Scanner;
 public class GeneBankSearch {
 	
 	private static int ERROR = 1, metaSeqLength;
-	public static String bTreeFileName, queryFileName, metadataFileName;
+	public static String bTreeFileName, queryFileName, dataFileName;
 	public static int debugLevel;
+	static long foundKey;
 	
 	public static void main(String args[]) {
 		
@@ -23,28 +23,39 @@ public class GeneBankSearch {
 		
 		try {
 			
-			BTree bt = new BTree(new File(bTreeFileName), new File(metadataFileName));
+			BTree bt = new BTree(new File(bTreeFileName), new File(dataFileName));
+			@SuppressWarnings("unused")
 			GeneBankCreateBTree create = new GeneBankCreateBTree();
 			
 			System.out.println("BTreeFileName: " + bTreeFileName);
-			System.out.println("MetaDateFileName: " + metadataFileName);
+			System.out.println("MetaDateFileName: " + dataFileName);
 			System.out.println("QueryFileName: " + queryFileName);
 			
+			@SuppressWarnings("resource")
 			Scanner queryScanner = new Scanner(new File(queryFileName));
 			String curLine = "";
 			
-			do {
+			while (queryScanner.hasNextLine()) {
 				curLine = queryScanner.nextLine();
-				//long k = create.encodeSequence(curLine);
-				//Need other things to be finished first
+				int sequenceLength = curLine.length();
+				long k = GeneBankCreateBTree.encodeSequence(curLine);
+				BTreeNode node = bt.search(bt.root, k);
 				
+				if(node == null) {
+					
+				} else {
 				
-			}while (queryScanner.hasNextLine());
-			
+				for(int i = 0; i < node.keys.length; i++) {
+					if(node.keys[i].dna == k) {
+						System.out.println(GeneBankCreateBTree.decodeSequence(k, sequenceLength) + ": " + node.keys[i].frequency);
+					}
+				}
+			}
+			}
 		} catch(FileNotFoundException e) {
-			
+			e.printStackTrace();
 		} catch(IOException e) {
-			
+			e.printStackTrace();
 		}
 	}
 	
@@ -66,8 +77,7 @@ public class GeneBankSearch {
 		
 		bTreeFileName = args[1];
 		queryFileName = args[2];
-		metadataFileName = bTreeFileName.replace("data", "metadata");
-		metaSeqLength = Integer.parseInt(metadataFileName.split("//")[4]);	
+		dataFileName = bTreeFileName.replace("data", "metadata");
 	}
 	
 	/**

@@ -329,5 +329,46 @@ public class GeneBankCreateBTree {
 		return retVal.toString();
 		
 	}
+
+public static String decodeSequence(long dna, int sequenceLength) {
+	String temp = Long.toString(dna,2);// the long converted to string w/o leading 0's
+	StringBuilder dnaString = new StringBuilder();// will hold the long converted to a string w/ leading 0's
+	int k2 = sequenceLength*2;// number of total bits expected
+	int zerosNeeded = k2-temp.length();// number of leading 0's missing
 	
+	for(int i=0; i<zerosNeeded; i++) {
+		dnaString.append("0");// add leading 0's
+	}
+	
+	dnaString.append(temp);// add long w/o leading 0's, dnaString now completed
+	
+	StringBuilder retVal = new StringBuilder();// will hold final resulting chars a, t, c, g
+	int i=0;
+	while(i<k2) { 
+		
+		String letter = ""+dnaString.charAt(i)+dnaString.charAt(i+1); // two bits per char
+		switch(letter) {
+		case "00":
+			retVal.append("a");
+			break;
+			
+		case "01":
+			retVal.append("c");
+			break;
+			
+		case "10":
+			retVal.append("g");
+			break;
+			
+		case "11":
+			retVal.append("t");
+			break;
+		}
+		
+		i+=2; // skip over 2 bits just utilized
+	}
+	
+	return retVal.toString();
+	
+}
 }
