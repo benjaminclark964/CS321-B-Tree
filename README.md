@@ -37,10 +37,14 @@ In our implementation of BTree, both our Metadata and BTree files are stored in 
 
 ### BTree Node Structure
 The BTree Node's structure in a BTree file is expressed like this:
+```
 {[Object][Object]...[Object]}, {[Long childPointer][Long childPointer]...[Long childPointer]}, [int numKeys], [boolean isLeaf], [long filePosition]
+```
 
 Every Object within a BTree Node contains the following:
+```
 [long dnaSequence], [int frequency]
+```
 
 ### Read/Write Methods
 Whenever information needs to be written or read from our file, we call the public void methods "diskRead(long filePos)" and "diskWrite(BtreeNode node)".
