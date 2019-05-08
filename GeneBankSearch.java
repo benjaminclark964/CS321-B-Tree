@@ -12,7 +12,7 @@ import java.util.Scanner;
  */
 public class GeneBankSearch {
 	
-	private static int ERROR = 1, metaSeqLength;
+	private static int ERROR = 1;
 	public static String bTreeFileName, queryFileName, dataFileName;
 	public static int debugLevel;
 	static long foundKey;
