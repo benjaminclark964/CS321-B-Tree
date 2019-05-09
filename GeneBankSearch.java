@@ -1,7 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.LinkedList;
 import java.util.Scanner;
 /** 
  * Searches the BTree and prints each sequence of DNA along with its corresponding

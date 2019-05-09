@@ -15,7 +15,6 @@ public class GeneBankCreateBTree {
 	
 	private static int sequenceLength;//K
 	private static BTree bTree;
-	private static Cache<BTreeNode> cache;//TODO: Maybe should be Cache<TreeObject>?
 	
 	/**
 	 * Main Method
@@ -91,8 +90,13 @@ public class GeneBankCreateBTree {
 					printUsageAndExit();
 				}
 				
+				boolean c = false;
+				if(usingCache == 1) {
+					c = true;
+				}
+				
 				//	Create a BTree
-				bTree = new BTree(degree, sequenceLength, gbkFile.getName());
+				bTree = new BTree(degree, sequenceLength, gbkFile.getName(), c, cacheSize);
 				
 				//	Scan through the file, finds sequences, and creates nodes from file
 				scanFile(new Scanner(gbkFile));

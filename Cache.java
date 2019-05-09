@@ -64,6 +64,7 @@ public class Cache<E> {
 	public int getSize() {
 		return cacheSize;
 	}
+	
 	/** Removes objects from cache until empty
 	 */
 	@SuppressWarnings("unused")
@@ -71,6 +72,14 @@ public class Cache<E> {
 		while(!cache.isEmpty()) {
 			cache.removeFirst();
 		}
+	}
+	
+	/**
+	 * Added method for BTree implementaion (Read)
+	 * @return
+	 */
+	public LinkedList<E> getCacheLinkedList() {
+		return cache;
 	}
 	
 }

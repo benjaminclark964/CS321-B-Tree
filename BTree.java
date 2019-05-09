@@ -2,6 +2,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.Iterator;
+import java.util.LinkedList;
 
 /**
  * 
@@ -11,19 +13,27 @@ import java.io.RandomAccessFile;
 public class BTree {
 	
 	private int t;//degree of tree, so every BTreeNode has N number of TreeObjects such that: (t-1)<= N <=(2t-1)
+	@SuppressWarnings("unused")
 	private int sequenceLength;//this is the k parameter of Project Spec.
 	BTreeNode root; //root of the BTree
-	RandomAccessFile bTreeRAF; //Reads the file
-	File BTreeFile;
-	StringBuilder outPut = new StringBuilder();
-	FileWriter writer;
-	//Cache cache; 
+	private RandomAccessFile bTreeRAF; //Reads the file
+	private File BTreeFile;
+	private StringBuilder outPut = new StringBuilder();
+	private FileWriter writer;
+	private boolean usingCache = false;
+	@SuppressWarnings("unused")
+	private static Cache<BTreeNode> cache;
 	
-	public BTree(int t, int k, String gbk) throws IOException {
+	public BTree(int t, int k, String gbk, boolean usingCache, int cacheSize) throws IOException {
 		
 		this.t = t; //degree
 		this.sequenceLength = k;
 		File metadata = new File(gbk + ".btree.metadata" + k + "." + t);
+		
+		if(usingCache) {
+			cache = new Cache<BTreeNode>(cacheSize);
+			this.usingCache = true;
+		}
 		
 		bTreeRAF = new RandomAccessFile(metadata, "rw");
 		bTreeRAF.writeInt(t); //write tree degree to metadata file
@@ -221,6 +231,16 @@ public class BTree {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
+		// Insert into cache if cache is being utilized
+		if (usingCache) {
+			// Removes object from cache
+			cache.getObject(diskRead(node.filePosition));
+
+			// Inserts new, updated node into cache
+			cache.addObject(node);
+		}
+
 	}
 	
 	/** 
@@ -229,6 +249,17 @@ public class BTree {
 	 * @return node
 	 */
 	public BTreeNode diskRead(long filePos) {		
+		
+		if(usingCache) {
+			LinkedList<BTreeNode> c = cache.getCacheLinkedList();
+			Iterator<BTreeNode> i = c.iterator(); 
+			while(i.hasNext()) {
+				BTreeNode retVal = i.next();
+				if(retVal.filePosition == filePos) {
+					return retVal;
+				}
+			}
+		}
 		
 		BTreeNode node = new BTreeNode(t,filePos);
 		
