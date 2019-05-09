@@ -59,7 +59,7 @@ public class GeneBankCreateBTree {
 				
 				//	degree must be either 0 (becomes 4096 bytes) or some positive integer
 				if(degree == 0) {
-					degree = 5;//TODO: need to make actual calculation for the best degree for our block size 4096
+					degree = 102;//2t-1(12byte keys) + 2t(8byte children pointers) + 13 bytes of metadata <= 4096
 				}
 				if(!(degree > 1)) {
 					System.err.println("Your degree must be greater or equal to 2. You entered " + degree + ".\n");

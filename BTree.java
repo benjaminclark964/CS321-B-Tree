@@ -28,7 +28,7 @@ public class BTree {
 		
 		this.t = t; //degree
 		this.sequenceLength = k;
-		File metadata = new File(gbk + ".btree.metadata" + k + "." + t);
+		File metadata = new File(gbk + ".btree.metadata." + k + "." + t);
 		
 		if(usingCache) {
 			cache = new Cache<BTreeNode>(cacheSize);
@@ -41,7 +41,7 @@ public class BTree {
 		bTreeRAF.close();
 		
 		root = new BTreeNode(t, 0);
-		BTreeFile = new File(gbk + ".btree.data" + k + "." + t);
+		BTreeFile = new File(gbk + ".btree.data." + k + "." + t);
 		diskWrite(root);
 	}
 	
